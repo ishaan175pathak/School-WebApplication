@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submission</title>
+    <link rel="icon" href="{{static}}/static/Icon.jpeg">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script>
+        function viewSubmission(){
+            $.get("https://webs-school.herokuapp.com/view%20submission/{{information.name}}/",function(data,status){
+
+                var result = "<table class='table table-borderless table-hover'>";
+                    result += "<tr><th>Submitted to </th><th>Submitted By</th><th>Class</th><th>Section</th><th>File</th><th>Date</th></tr>"
+                for (let index = 0; index < data.length; index++) {
+                    result += "<tr><td>"+data[index].faculty+"</td><td>"+data[index].student+"</td><td>"+data[index].Class+"</td><td>"+data[index].section+"</td><td><a href='"+data[index].file+"' download>"+data[index].file+"</td><td>"+data[index].date+"</td></tr>";
+                    }
+                
+                    result += "</table>";
+
+                document.getElementById("display").innerHTML=result;
+            });
+        };
+
+        function filterquery(){
+            $.get("http://127.0.0.1:8000/view%20submission/{{information.name}}/",function(data,status){
+                if ($("#search").val() != "") {
+                    var result = "<h2 class='text-center'>"+$("#search").val()+"</h2>"; 
+                    result += "<table class='table table-borderless table-hover'>";
+                    result += "<tr><th>Submitted to </th><th>Submitted By</th><th>Class</th><th>Section</th><th>File</th><th>Date</th></tr>"
+                    for (let index = 0; index < data.length; index++) {
+                        if(data[index].Class == $("#search").val())
+                        result += "<tr><td>"+data[index].faculty+"</td><td>"+data[index].student+"</td><td>"+data[index].Class+"</td><td>"+data[index].section+"</td><td><a href='"+data[index].file+"' download>"+data[index].file+"</td><td>"+data[index].date+"</td></tr>";
+                    }
+                
+                    result += "</table>";
+
+                document.getElementById("display").innerHTML=result
+                } else {
+                    viewSubmission();
+                }
+            });
+        }
+
+        $(document).ready(function(){
+            viewSubmission();
+        });
+    </script>
+    <style>
+        nav li{
+            padding-left: 0.2rem;
+        }
+
+        table tr,td{
+            padding:0 2em 0 2em;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-info bg-info">
+        <h3 class="container" style="color:white;">
+           Welcome {% if information %}
+            {{ information.name }}
+            {% endif %}
+        </h3>
+        <ul class="navbar-nav">
+            <li class="navbar-item">
+                <a href="../">
+                    <button class="btn btn-secondary">Home</button>
+                </a>
+            </li>
+            <li class="navbar-item">
+                <a href="/logout/">
+                    <button class="btn btn-danger">Logout</button>
+                </a>
+            </li>
+        </ul>
+    </nav>   
+    <div class="navbar navbar-expand-sm bg-info">
+        <div class="form-inline">
+            <input type="text" id="search" name="search" class="form-control mr-sm-2" placeholder="Search file by Class">
+            <button type="button" onclick="filterquery()" class="btn btn-success">Search</button>
+        </div>
+    </div>
+    <div class="container text-center" id="display">
+        <div><span class="spinner-grow text-muted"></span> Fetching Data</div>
+    </div>
+</body>
+</html>

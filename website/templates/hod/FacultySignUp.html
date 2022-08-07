@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="icon" href="{{static}}/static/Icon.jpeg">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <navbar class="navbar navbar-expand-sm navbar-secondary bg-dark">
+        <div class="navbar-brand">
+            <img src="{{static}}/static/Icon.jpeg" class="rounded-circle" alt="Logo" style="height: 50px;width: 50px;">
+        </div>
+        <div class="container">
+            <h3 style="color: antiquewhite;">Registration Page</h3>
+        </div>
+        <ul class="navbar-nav" style="margin-left: auto;">
+            <li class="navbar-item"><a href="/classroom/hod/" class="btn btn-primary">Home</a></li>
+        </ul>
+    </navbar>
+
+    <!-- Creating a Sign Up Form -->
+    <div class="container">
+        <form action="" method="POST">
+        {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" class="form-control" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" class="form-control" placeholder="email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="password">
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="text" placeholder="Phone Number" name="phone" id="phone" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" placeholder="Address" name="address" id="address" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="qualification">Qualification</label>
+                <input type="text" placeholder="Qualification" class="form-control" id="qualification" name="qualification" >
+            </div>
+            <button type="submit" class="btn btn-info">Submit</button>
+        </form>
+    </div>
+
+    <div class="container-fluid">
+        {% if message %}
+        <h5 class="{{class}}">{{message}}</h5>
+        {% endif %}
+    </div>
+</body>
+</html>

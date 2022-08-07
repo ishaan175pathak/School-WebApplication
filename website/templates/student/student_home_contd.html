@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student</title>
+    <link rel="icon" href="{{static}}/static/Icon.jpeg">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        nav ul li{
+            margin-left: 10px;
+        }
+    </style>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-secondary bg-secondary">
+        <div class="navbar-brand">
+            <img src="{{static}}/static/Icon.jpeg" class="rounded-circle" alt="Logo" style="height: 50px;width: 50px;">
+        </div>
+
+        <div class="container">
+            {% if information %}
+            <h3 style="color: antiquewhite;"> Welcome {{information.name}}</h3>
+            {% endif %}
+        </div>
+
+        <ul class="navbar-nav">
+            {% if information %}
+            <li class="navbar-item"><a href="/classroom/student/{{information.name}}/" class="btn btn-info" style="border-radius: 3px;">Classroom</a></li>
+            {% endif %}
+            <li class="navbar-item"><a href="/classroom/student/{{information.name}}/fees/" class="btn btn-info">Fees</a></li>
+            <li class="navbar-item"><button type="button" class="btn btn-info" data-toggle="modal" data-target="#notice">Notice</button></li>
+            <li class="navbar-item"><a href="/logout/" class="btn btn-danger">Logout</a></li>
+        </ul>
+
+    </nav>    
+
+    <!-- creating a sending Query form -->
+
+    <div class="container" style="margin-top: 3rem;">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" class="form-control" id="name" name="name" value="{{information.name}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="query">Feel Free To ask Your Query Here</label>
+                <textarea name="query" id="query" cols="30" rows="10" class="form-control" maxlength="1000" placeholder="Try to be concise with your Query"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="class">Class</label>
+                <input type="text" name="class" id="class" class="form-control" value="{{student_info.Class}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="section">Section</label>
+                <input name="section" id="section" class="form-control" value="{{student_info.section}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="faculty">Faculty</label>
+                <select name="faculty" id="faculty" class="form-control">
+                    {% for dat in faculty %}
+                        <option value="{{dat.name}}">{{dat.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+        <div class="container">
+            <h3 class="{{class}}">{{message}}</h3>
+        </div>
+    </div>
+
+    <div class="container">
+        
+                <!-- The Modal -->
+                <div class="modal fade" id="notice">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                            <h4 class="modal-title"><i>Notice</i></h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                        <!-- The Modal Body -->
+                        <div class="modal-body">
+                            {% if notice %}
+                                {% for data in notice %}
+                                    {{data.notice}} 
+                                    <br>
+                                    <small><i>{{data.date}}</i></small>
+                                    <b>-{{data.name}}</b> 
+                                    <hr>
+                                {% endfor %}
+                            {% else %}
+                                <b>No Notice to Show</b>
+                            {% endif %}                                
+                        </div>
+
+                        <!-- The Modal Footer -->
+                        <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                        </div> 
+                    </div>
+                </div>
+    </div>
+</body>
+</html>

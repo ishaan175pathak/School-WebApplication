@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignments</title>
+    <link rel="icon" href="{{static}}/static/Icon.jpeg">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        body
+        {
+            background-image: url("{{static}}/static/draw2.svg");
+            background-position: center;
+        }
+
+        nav li{
+            padding: 0 1rem 0 1rem;
+        }
+
+        #disp
+        {
+            margin: 10%;
+            background: rgba(209, 180, 180, 0.1);
+            padding: 1rem;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-secondary navbar-secondary">
+        <div class="container-fluid">
+            <h2>Welcome {{information.name}}</h2>
+        </div>
+        <ul class="navbar-nav">
+            <li class="navbar-item">
+                <a href="../"><button class="btn btn-info">Home</button></a>
+            </li>
+            <li class="navbar-item">
+                <a href="/logout/"><button class="btn btn-danger">Logout</button></a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container" id="disp">
+        <form action="" method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="class">Class</label>
+                <select name="class" id="class" class="form-control">
+                {% for dat in faculty_info %}
+                    <option value="{{ dat.Class }}">{{dat.Class}}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="section">Section</label>
+                <select name="section" id="section" class="form-control">
+                {% for dat in faculty_info %}
+                    <option value="{{dat.section}}">{{dat.section}}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="topic">Topic</label>
+                <input type="text" name="topic" id="topic" class="form-control">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-secondary">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

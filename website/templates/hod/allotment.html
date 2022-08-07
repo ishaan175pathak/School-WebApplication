@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allotment</title>
+    <link rel="icon" href="{{static}}/static/Icon.jpeg">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <style>
+        nav ul{
+            margin-left: auto;
+        }
+
+        nav ul li{
+            margin: 0px 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-secondary bg-secondary">
+        <div class="navbar-nav">
+            <img src="{{static}}/static/Icon.jpeg" class="rounded-circle" alt="Logo" style="height: 50px;width: 50px;">
+        </div>
+        <div class="container">
+            <h3 style="color: antiquewhite;">Head Of Department</h3>
+        </div>
+        <ul class="navbar-nav">
+            <li class="navbar-item">
+                <a href="../" class="btn btn-primary">Home</a>
+            </li>
+            <li class="navbar-item">
+                <a href="/logout/" class="btn btn-danger">Logout</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Creating a allotment form-->
+    <div class="container">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name</label>
+                <select name="name" id="name" class="form-control">
+                    {% for dat in data %}
+                        {% if dat.authority == "faculty" %}
+                            <option value="{{dat.name}}">{{dat.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="class">Class</label>
+                <select name="class" id="class" class="form-control">
+                    <option value="BCA 1st">Semester 1</option>
+                    <option value="BCA 2nd">Semester 2</option>
+                    <option value="BCA 3rd">Semester 3</option>
+                    <option value="BCA 4th">Semester 4</option>
+                    <option value="BCA 5th">Semester 5</option>
+                    <option value="BCA 6th">Semester 6</option>
+                    <option value="BCA 7th">Semester 7 (Hons)</option>
+                    <option value="BCA 8th">Semester 8 (Hons)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select name="section" id="section" class="form-control">
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" name="subject" id="subject" class="form-control" placeholder="Subject">
+            </div>
+            <button type="submit" class="btn btn-secondary">Submit</button>
+        </form>
+        <div class="{{class}}">{{message}}</div>
+    </div>
+</body>
+</html>

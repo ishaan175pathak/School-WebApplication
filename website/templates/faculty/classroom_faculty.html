@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty's Section</title>
+
+    <link rel="icon" href="{{static}}/static/Icon.jpeg">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+    <script>
+        function postmessage() {
+            var url = "https://webs-school.herokuapp.com/message%20post/";
+            var obj = {
+                "sender":"{{information.name}}",
+                "receiver":$("#receiver option:selected").val(),
+                "Class":"{{information.Class}}",
+                "section":"{{information.section}}",
+                "message":$("#doubts").val()
+            }
+
+            console.log(obj)
+
+            $.post(url,JSON.stringify(obj),function(data,status){
+                getMessage();
+            },'json');
+        };
+
+        function getMessage(){
+            var url = "https://webs-school.herokuapp.com/fetch%20message/";
+            $.get(url,function(data,status){
+                var info = data;
+                var party = $("#receiver-party").val();
+
+                var result = "<table class='table table-borderless table-hover'>";
+                for (let index = 0; index < info.length; index++) {
+                    if (info[index].sender == "{{information.name}}" && info[index].receiver == party) {
+                        result += "<tr><td><p class='text-right'>"+info[index].message+"</p><br><p class='text-right'><b>-"+info[index].sender+"</b></p></td></tr>";
+                    }
+                    if (info[index].sender == party && info[index].receiver == "{{information.name}}") {
+                        result += "<tr><td><p class='text-left'>"+info[index].message+"</p><br><p class='text-left'><b>-"+info[index].sender+"</b></p></td></tr>";
+                    }
+                }
+                result += "</table>";
+                document.getElementById("text").innerHTML=result;
+            })
+        }
+
+        function sendData() {
+            var url = "http://127.0.0.1:8000/doubt%20post/";
+
+            var obj = {
+                "sender":"{{information.name}}",
+                "doubts":"https://meet.google.com/?hs=197&pli=1&authuser=0"
+            }
+
+            $.post(url,JSON.stringify(obj),function(data,status){
+                getAllPost();
+            },'json')
+        }
+
+        function display(){
+            document.getElementById("descrip").style.transform="TranslateX(0px)";
+        }
+
+        function final_disp(){
+            var url = "http://127.0.0.1:8000/classroom/faculty/{{information.name}}/link/";
+
+            var obj = {
+                "teacher":"{{information.name}}",
+                "Class":$("#class option:selected").val(),
+                "section":$("#section option:selected").val(),
+                "link":$("#link").val(),
+            }
+
+            $.post(url,JSON.stringify(obj),function(data,status){
+                alert(status);
+            },'json');
+
+            document.getElementById("descrip").style.transform="TranslateX(310px)";
+        }
+
+        function find_chat(){
+            document.getElementById("receiver-party").value = $("#receiver option:selected").val();
+            getMessage();
+        }
+    </script>
+
+    <style>
+        body{
+            position: relative;
+        }
+
+        .display{
+            font-size: small;
+            text-align: right;
+        }
+        nav ul {
+            margin-left: auto;
+        }
+
+        #first,#second,#third
+        {
+            margin-top: 0.2rem;
+            float: left;
+            padding-left: 2.5%;
+            height: 100%;
+        }
+
+        #first,#third
+        {
+            width: 30%;
+        }
+
+        #second
+        {
+            width: 40%;
+        }
+
+        .fit-content{
+            height: fit-content;
+            width: fit-content;
+            border-radius: 50px 50px 50px 50px;
+        }
+
+        #doubts{
+            padding: 0.5rem;
+            box-sizing: border-box;
+            position: sticky;
+            box-shadow: 0 4px 4px 0 rgba(128, 7, 242, 0.11);
+            border-radius: 50px;
+        }
+
+        #third
+        {
+            position: relative;
+        }
+
+
+        #descrip
+        {
+            transform: translateX(310px);
+            position: fixed;
+            width: 15rem;
+            height: auto;
+            bottom: 8em;
+            right: 3em;
+            margin: 1em;
+            padding: 1em;
+            background-color: rgb(235, 244, 244);
+            box-shadow: 2px 2px 2px 2px rgba(55, 131, 131, 0.5);
+            border-radius: 0.5em 0.5em 0em 0.5em;
+            transition: transform 0.5s linear;
+        }
+
+        #meet-btn a
+        {
+            text-decoration: none;
+            color: white;
+        }
+
+        #meet-btn{
+            border-radius: 50%;
+            height: 5rem;
+            width: 5rem;
+            bottom: 3em;
+            position: fixed;
+            box-shadow: 0 0 0 0 rgba(128, 7, 242, 0.11);
+            right: 3em;
+        }
+        
+        h2
+        {
+            color: whitesmoke;
+        }
+
+        #send{
+            margin: 15px;
+        }
+
+        #search{
+            margin: 1px auto auto -40px;
+            background-color: cyan;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-secondary bg-info" style="width:100%">
+        <h2>Faculty Section Of
+            {% if information %}
+            {{information.name}}
+            {% endif %}
+        </h2>
+        <ul class="nav nav-pills">
+            <li class="navbar-item dropdown">
+                
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                    <img src="{{static}}/static/Icon.jpeg" class="rounded-circle" alt="Logo" style="height: 50px;width: 50px;">
+                </a>
+                
+                <div class="dropdown-menu">
+                    {% if information %}
+                    <a href="/classroom/faculty/{{information.name}}/queries/" class="dropdown-item">Home</a>
+                    <a href="/classroom/faculty/{{information.name}}/submission/"" class="dropdown-item">Submission</a>
+                    <a href="/classroom/faculty/{{information.name}}/generate%20assignment/ " class="dropdown-item">Assign Task</a>
+                    <a href="/classroom/faculty/{{information.name}}/studentEnroll/ " class="dropdown-item">Enroll Student</a>
+                    <a href="/logout/" class="dropdown-item">Sign out</a>
+                    {% endif %}
+                </div>
+            </li>
+        </ul>
+    </nav> 
+    <div class="row">
+        <div class="container" id="first" style="text-align: left;">
+            <div class="container-fluid">
+                Classes Alloted to the Faculty
+                <table class="table table-hover">
+                    <tr>
+                        <th>
+                            Class
+                        </th>
+                        <th>
+                            Section
+                        </th>
+                        <th>
+                            Subject
+                        </th>
+                    </tr>
+                    {% for dat in data %}
+                    <tr>
+                        <td>{{ dat.Class }}</td>
+                        <td>{{ dat.section }}</td>
+                        <td>{{ dat.subject }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <div class="container text-center" id="second">
+            <div class="container-fluid" id="text-show">
+            <input type="text" name="receiver-party" id="receiver-party" class="form-control" readonly>
+            </div>
+            <div id="text"><span class="spinner-grow text-muted"></span> Select an individual to Chat</div>
+        </div>
+        <div class="container text-center" id="third">
+            <div class="container">
+                <textarea name="doubts" id="doubts" cols="30" rows="1"></textarea>
+                <div class="row">
+                    <div class="col-sm-10">
+                        <select name="receiver" class="form-control" id="receiver">
+                            {% for da in receive_faculty %}
+                                <option value="{{da.regis.name}}">{{da.regis.name}}</option>
+                            {% endfor %}
+                            {% for da in receive_student %}
+                                    <option value="{{da}}">{{da}}</option>
+                            {% endfor %}
+                        </select>
+
+                    </div>
+                    <div class="col-sm-2">
+                        <button id="search" class="btn" onclick="find_chat()"><span class="fa fa-search"></span></button>   
+                    </div>
+                </div class="container-fluid">
+                    <Button id="send" name="send" onclick="postmessage()" style="border-radius: 25%; background: lightgreen;">Send</Button>
+                </div>    
+            </div>
+    </div>
+
+    <div class="container" id="descrip">
+        <div class="form-group">
+            <label for="class">Class</label>
+            <select name="class" id="class" class="form-control">
+                {% for dat in data %}
+                    <option value="{{dat.Class}}">{{dat.Class}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="section">Section</label>
+            <select name="section" id="section" class="form-control">
+                {% for dat in data %}
+                    <option value="{{dat.section}}">{{dat.section}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="link">Link</label>
+            <input type="text" name="link" id="link" class="form-control">
+        </div>
+
+        <button class="btn btn-info" onclick="final_disp()" style="border-radius: 3em;">Submit</button>
+    </div>
+        
+    <button class="btn btn-info" id="meet-btn" onmouseenter="display()">
+        <a href="https://meet.google.com/?hs=197&pli=1&authuser=0" target="blank"><span><i class='fas fa-video'></i></span></a>
+    </button>
+</body>
+</html>

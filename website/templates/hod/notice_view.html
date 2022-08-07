@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notice_view</title>
+    <link rel="shortcut icon" href="{{static}}/static/Icon.jpeg" type="image/x-icon">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <style>
+        nav ul li{
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-secondary bg-secondary">
+        <div class="navbar-brand">
+            <img src="{{static}}/static/Icon.jpeg" class="rounded-circle" alt="Logo" style="height: 50px;width: 50px;">
+        </div>
+        <div class="container">
+            <h2 style="color: white;">Head Of Department</h2>
+        </div>
+        <ul class="navbar nav">
+            <li class="navbar-item"><a href="../" class="btn btn-secondary">Home</a></li>
+            <li class="navbar-item"><a href="/logout/" class="btn btn-danger">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="container text-center" id="show">
+        <div class="container"><span class="spinner-border text-primary"></span>Fetching Data</div>
+    </div>
+
+    <script src="{{static}}/static/jquery-3.5.0.min.js"></script>
+    <script>
+        function getnotice(){
+            $.get("https://webs-school.herokuapp.com/fetch%20notice/",function(data,status){
+                var record = data;
+                var result = "<table class='table table-borderless table-hover'>"
+                result += "<tr><th>Faculty</th><th>Notice</th><th>Class</th><th>Section</th><th>Date</th></tr>"
+                for (let index = 0; index < data.length; index++) {
+                    result += "<tr><td>"+data[index].name+"</td><td>"+data[index].notice+"</td><td>"+data[index].Class+"</td>"+
+                        "<td>"+data[index].section+"</td><td>"+data[index].date+"</td>"+
+                        "</tr>"
+                }
+                result += "</table>"
+                $("#show").html(result);
+                });
+            }
+        
+            // function deletedata(num){
+            //     $.ajax({
+            //         type:"DELETE",
+            //         url:"http://127.0.0.1:8000/noticedelete/"+num+"/",
+            //         data:{}
+            //     }).done(function(e){
+            //         alert("Deleted !")
+            //         getnotice();
+            //     });
+            // };
+        
+            $(document).ready(function(){
+                getnotice();
+            });
+    </script>
+</body>
+</html>

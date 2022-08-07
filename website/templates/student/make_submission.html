@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make Assingment Submission</title>
+    <link rel="icon" href="{{static}}/static/Icon.jpeg">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    
+    <style>
+
+        nav ul 
+        {
+            margin-left: auto;
+        }
+
+        nav ul li{
+            padding: 1rem;
+        }
+
+        #form-disp
+        {
+            background: rgb(248, 246, 246);
+            /* padding: 3rem; */
+            margin: 3rem auto auto auto;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-secondary bg-secondary">
+        <div class="container-fluid">
+            <h2>{{information.name}}</h2>
+        </div>
+        <ul class="navbar-nav">
+            <li class="navbar-item">
+                <a href="/classroom/student/{{information.name}}" class="btn btn-info">Home</a>
+            </li>
+            <li class="navbar-item">
+                <a href="/logout/" class="btn btn-danger">Logout</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container" id="form-disp">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="faculty_name">Name od the Faculty</label>
+                <input class="form-control" type="text" id="faculty_name" name="faculty_name" value="{{question.teacher}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="question">Topic</label>
+                <input class="form-control" type="text" id="question" name="question" value="{{question.question}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="name">Name of the student</label>
+                <input class="form-control" type="text" id="name" name="name" value="{{information.name}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="class">Class</label>
+                <input class="form-control" type="text" id="class" name="class" value="{{question.Class}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="section">Section</label>
+                <input class="form-control" type="text" id="section" name="section" value="{{question.section}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="File">Your Assignment</label>
+                <input class="form-control" type="file"  id="File" name="File"> 
+            </div>
+            <div class="form-group" style="padding-left: 40%;">
+                <button type="submit" class="btn btn-success">Submit Assignment</button>
+            </div>
+        </form>
+
+        <div class="container">
+            <h5 class="{{class}}">{{message}}</h5>
+        </div>
+    </div>
+</body>
+</html>

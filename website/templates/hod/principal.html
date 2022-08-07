@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOD</title>
+    <link rel="icon" href="{{static}}/static/Icon.jpeg">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        nav div{
+            margin-left: auto;
+        }
+
+        #add{
+            position: fixed;
+            background-color: rgb(144, 187, 205);
+            bottom: 1em;
+            right: 2em;
+            width: 7rem;
+            height: 7rem;
+            border-radius: 5rem;
+        }
+
+        #add a{
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-secondary bg-secondary">
+        <ul class="navbar-nav">
+            <li class="navbar-item dropdown">
+                
+                <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                    <img src="{{static}}/static/Icon.jpeg" class="rounded-circle" alt="Logo" style="height: 50px;width: 50px;">
+                </a>
+                <div class="dropdown-menu">
+                    <a href="allotment/" class="dropdown-item">Allotment</a>
+                    <a href="queries/" class="dropdown-item">Queries</a>
+                    <a href="notice_view/" class="dropdown-item">Notice</a>
+                    <!-- <a href="faculty_signup/" class="dropdown-item">Registration</a> -->
+                </div>
+            </li>
+        </ul>
+        <div class="container">
+            <h3 style="color: antiquewhite;">Welcome HEAD OF DEPARTMENT</h3>
+        </div>
+        <div class="navbar-nav">
+            <li class="nav-item"><a href="/logout/" class="btn btn-danger">Logout</a></li>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <table class="table table-hover" style="width: 100%;">
+            <tr class="table-primary">
+                <th>Name</th>
+                <th>Class</th>
+                <th>Section</th>
+                <th>Subject</th>
+            </tr>
+            {% if data %}
+                {% for info in data %}
+                    <tr class="table-secondary">
+                        <td>
+                            {{ info.name }}
+                        </td>
+                        <td>
+                            {{ info.Class }}
+                        </td>
+                        <td>
+                            {{ info.section }}
+                        </td>
+                        <td>
+                            {{info.subject}}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr class="row">
+                    <td> Database has no data to show</td>
+                </tr>
+            {% endif %}
+        </table>
+
+    </div>
+
+    <div class="container">
+        <button class="btn" id="add">
+            <a href="/classroom/hod/faculty_signup/">Add Teacher</a>
+        </button>
+    </div>
+</body>
+</html>

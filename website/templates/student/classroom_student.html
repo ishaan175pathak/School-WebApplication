@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student's Section</title>
+    <link rel="icon" href="{{static}}/static/Icon.jpeg">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    
+    <script>
+        function postDoubts() {
+            var url = "https://webs-school.herokuapp.com/message%20post/";
+            var obj = {
+                "sender":"{{information.regis.name}}",
+                "receiver":$("#receiver option:selected").val(),
+                "Class":"{{information.Class}}",
+                "section":"{{information.section}}",
+                "message":$("#doubts").val()
+            }
+
+            console.log(obj)
+
+            $.post(url,JSON.stringify(obj),function(data,status){
+                getAllDoubts();
+            },'json');
+        };
+
+        function getAllDoubts(){
+            var url = "https://webs-school.herokuapp.com/fetch%20message/";
+            $.get(url,function(data,status){
+                var info = data;
+                var party = $("#receiver-party").val();
+
+                var result = "<table class='table table-borderless table-hover'>";
+                for (let index = 0; index < info.length; index++) {
+                    if (info[index].sender == "{{information.regis.name}}" && info[index].receiver == party) {
+                        result += "<tr><td><p class='text-right'>"+info[index].message+"</p><br><p class='text-right'><b>-"+info[index].sender+"</b></p></td></tr>";
+                    }
+                    if (info[index].sender == party && info[index].receiver == "{{information.regis.name}}") {
+                        result += "<tr><td><p class='text-left'>"+info[index].message+"</p><br><p class='text-left'><b>-"+info[index].sender+"</b></p></td></tr>";
+                        }
+                }
+                result += "</table>";
+                document.getElementById("text").innerHTML=result;
+            })
+        }
+
+
+        function linkView(){
+            var url = "https://webs-school.herokuapp.com/classroom/student/{{information.regis.name}}/view%20links/";
+
+            $.get(url,function(data,status){
+                var disp = ""
+                for (let index = 0; index < data.length; index++) {
+                    disp += "<a href='"+data[index].link+"'>"+data[index].link+"</a><br><b>"+data[index].teacher+"</b><small>"+data[index].date+"</small><hr>";
+                }
+
+                if(disp == "" || disp == null){
+                    disp = "No links to show";
+                }
+
+                document.getElementById("display").innerHTML=disp;
+            })
+        }
+        function find_chat(){
+            document.getElementById("receiver-party").value = $("#receiver option:selected").val();
+            getAllDoubts();
+        }
+
+        $(document).ready(function(){
+            linkView();
+        });
+
+    </script>
+    <style>
+
+        .subinfo{
+            font-size: smaller;
+            text-align: right;
+
+        }
+        nav ul{
+            margin-left: auto;
+        }
+
+        #first,#second,#third
+        {
+            padding: 1rem;
+            float: left;
+            padding-left: 2.5%;
+            height: 100%;
+        }
+        
+        #first,#third
+        {
+            width: 25%;
+
+        }
+
+        #second
+        {
+            width: 50%;
+        }
+
+        #doubts{
+            padding: 0.5rem;
+            box-sizing: border-box;
+            position: sticky;
+            box-shadow: 0 4px 4px 0 rgba(128, 7, 242, 0.11);
+            border-radius: 50px;
+        }
+
+        #actual-btn{
+            background-color: indigo;
+            padding: 2%;
+            color: white;
+            border-radius: 0.5rem;
+        }
+
+        #button{
+            background-color: rgb(91, 57, 120);
+            margin-top: 0.8em;
+            margin-right: 10px;
+            height: 2.5em;
+            width: 4em;
+            color: aliceblue;
+        }
+        
+        #send{
+            margin: 15px;
+        }
+
+        #search{
+            margin: 1px auto auto -20px;
+            background-color: cyan;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-secondary bg-info">
+        <h3 class="container-fluid" style="color: white;">Welcome
+            {% if information %}
+                {{information.regis.name}}
+                 {{information.Class}}
+                {{information.section}}
+
+            {% endif %}
+        </h3>
+        <ul class="navbar-nav">
+
+            <li>
+                <button class="btn" id="button" data-toggle="modal" data-target="#link">Link</button>
+            </li>
+            <li class="navbar-item dropdown">
+
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                    <img src="{{static}}/static/Icon.jpeg" class="rounded-circle" alt="Logo" style="height: 50px;width: 50px;">
+                </a>
+                <div class="dropdown-menu">
+                    {% if information %}<a href="/classroom/student/{{information.regis.name}}/studentPage/" class="dropdown-item">Home</a>{% endif %}
+                    <a href="/logout/" class="dropdown-item">Sign out</a>
+                </div>
+            </li>
+        </ul>
+    </nav> 
+
+    <div class="container">
+        <div class="modal fade" id="link">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Link for Class room</h4>
+                        <button class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body" id="display"></div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+            
+        <div id="first" class="container">
+            <table class="table table-hover table-borderless">
+                <div class="container text-center">
+                    <tr>
+                        <th>Name</th>
+                        <th>Topic</th>
+                        <th></th>
+                    </tr>
+                    {% for dat in data %}
+                        <tr>
+                            <td>
+                                {{dat.teacher}}
+                            </td>
+                            <td>
+                                {{dat.question}}
+                                <br>
+                                <small>{{dat.date}}</small>
+                            </td>
+                            <td>
+                                <a href="/classroom/student/{{dat.pk}}/{{information.regis.name}}/" class="btn btn-info">Submit</a>
+                                <br>
+                                <small>{{dat.status}}</small>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </div>
+            </table>
+        </div>
+        <div class="container text-center" id="second">
+            <div class="container-fluid" id="text-show">
+            <input type="text" name="receiver-party" id="receiver-party" class="form-control" readonly>
+            </div>
+            <div id="text"><span class="spinner-grow text-muted"></span> Select an individual to Chat</div>
+        </div>
+        <div id="third" class="container">
+            <div class="container">
+                    <textarea name="doubts" id="doubts" cols="30" rows="1"></textarea>
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <select name="receiver" id="receiver" class="form-control">
+                                {% for dat in receiver_faculty %}
+                                    <option value="{{dat.name}}">{{dat.name}}</option>
+                                {% endfor %}
+                                <hr>
+                                {% for dat in receiver_student %}
+                                    <option value="{{dat.regis.name}}">{{dat.regis.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <button id="search" class="btn" onclick="find_chat()"><span class="fa fa-search"></span></button>   
+                        </div>
+                    </div>
+                    <button id="send" onclick="postDoubts()" style="border-radius: 25%;height: fit-content;width: fit-content;background:lightgreen;">send</button>
+                </div>
+        </div>
+    </div>
+</body>
+</html>

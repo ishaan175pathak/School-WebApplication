@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notice</title>
+    <link rel="icon" href="{{static}}/static/Icon.jpeg">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <style>
+        nav ul li{
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-secondary bg-secondary">
+        <div class="navbar-brand">
+            <img src="{{static}}/static/Icon.jpeg" class="rounded-circle" alt="Logo" style="height: 50px;width: 50px;">
+        </div>
+
+        <div class="container">
+            {% if information %}
+               <h2 style="color: antiquewhite;">{{information.name}}</h2>
+            {% endif %}
+        </div>
+
+        <ul class="navbar nav">
+            <li class="navbar-item"><a href="/classroom/faculty/{{information.name}}/" class="btn btn-secondary">Home</a></li>
+            <li class="navbar-item"><a href="/logout/" class="btn btn-danger">Logout</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group" style="display: none;">
+            <input type="text" id="sname" name="sname" value="{{information.name}}">
+        </div>
+        <div class="form-group">
+            <label for="notice"><b>Notice</b></label>
+            <textarea name="notice" class="form-control" id="notice" cols="30" rows="10" maxlength="1000" placeholder="Notice Here"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="datetime-local" name="date" class="form-control" id="date">
+        </div>
+        <div class="form-group">
+            <select class="form-control" name="Class" id="Class">
+                {% for dat in allot%}
+                    <option value="{{dat.Class}}">{{dat.Class}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <select class="form-control" name="section" id="section">
+                {% for dat in allot %}
+                    <option value="{{dat.section}}">{{dat.section}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+    </div>
+    <div class="container">
+        {% if message %}
+            <div class="alert alert-success">{{message}}</div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty</title>
+    <link rel="icon" href="{{static}}/static/Icon.jpeg">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <style>
+        td{
+            padding: 50%;
+            margin: auto;
+        }
+
+        nav ul li{
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-secondary bg-secondary">
+        <div class="navbar-brand">
+            <img src="{{static}}/static/Icon.jpeg" class="rounded-circle" alt="Logo" style="height: 50px;width: 50px;">
+        </div>
+        <div class="container">
+            {% if information %}
+            <h3 style="color: antiquewhite;">Welcome {{information.regis.name}}</h3>
+            {% endif %}
+        </div>
+        <ul class="navbar-nav">
+            <li class="navbar-item"><a href="/classroom/faculty/{{information.name}}/" class="btn btn-info" style="border-radius: 3px;">Classroom</a></li>
+            <li class="navbar-item"><a href="/classroom/faculty/{{information.name}}/notices/" class="btn btn-primary">Add Notice</a></li>
+            <li class="navbar-item"><a href="/logout/"><Button class="btn btn-danger">Logout</Button></a></li>
+        </ul>
+    </nav>
+    <div class="navbar navbar-expand-sm bg-secondary">
+        <div class="form-inline">
+            <input type="text" id="search" name="search" class="form-control mr-sm-2" placeholder="Search queries by Class">
+            <button type="button" onclick="filterquery()" class="btn btn-success">Search</button>
+        </div>
+    </div>
+    <div class="container text-center" id="show">
+        <div><span class="spinner-grow text-muted"></span> Fetching Data</div>
+    </div>
+
+    <script>
+        function getAllQuery() {
+            var url = "https://webs-school.herokuapp.com/fetch%20query/{{information.name}}/";
+
+            $.get(url,function (data,status){
+                var result = "<table class='table table-borderless table-hover'>";
+                result += "<tr><th>Name</th><th>Query</th><th>Class</th><th>Section</th></tr>";
+                for (let index = 0; index < data.length; index++) {
+                    result += "<tr><td>"+data[index].name+"</td><td>"+data[index].query+"</td><td>"+data[index].Class+"</td><td>"+data[index].section+"</td></tr>";
+                }
+
+                result += "</table>";
+
+                document.getElementById("show").innerHTML = result;
+            })
+        }
+
+        function filterquery(){
+            if ($("#search").val() != "") {
+                $.get("https://webs-school.herokuapp.com/fetch%20query/{{information.name}}/",function(data,status){
+                    var result = "<h4 class = 'text-center'>"+$("#search").val()+"</h4>";
+                    result += "<table class='table table-borderless table-hover'>";
+                    result += "<tr><th>Name</th><th>Query</th><th>Class</th><th>Section</th></tr>";
+                    for (let index = 0; index < data.length; index++) {
+                        if(data[index].Class == $("#search").val()){
+                            result += "<tr><td>"+data[index].name+"</td><td>"+data[index].query+"</td><td>"+data[index].Class+"</td><td>"+data[index].section+"</td></tr>";
+                        }
+                    }
+
+                    result += "</table>";
+
+
+                    document.getElementById("show").innerHTML=result;
+                });
+            } else {
+                getAllQuery();
+            }
+        };
+
+        $(document).ready(function(){
+            getAllQuery();
+        })
+    </script>
