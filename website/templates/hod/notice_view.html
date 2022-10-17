@@ -40,7 +40,7 @@
     <script src="{{static}}/static/jquery-3.5.0.min.js"></script>
     <script>
         function getnotice(){
-            $.get("https://webs-school.herokuapp.com/fetch%20notice/",function(data,status){
+            $.get("http://127.0.0.1:8000/fetch%20notice/",function(data,status){
                 var record = data;
                 var result = "<table class='table table-borderless table-hover'>"
                 result += "<tr><th>Faculty</th><th>Notice</th><th>Class</th><th>Section</th><th>Date</th></tr>"

@@ -16,7 +16,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script>
         function viewSubmission(){
-            $.get("https://webs-school.herokuapp.com/view%20submission/{{information.name}}/",function(data,status){
+            $.get("http://127.0.0.1:8000/view%20submission/{{information.name}}/",function(data,status){
 
                 var result = "<table class='table table-borderless table-hover'>";
                     result += "<tr><th>Submitted to </th><th>Submitted By</th><th>Class</th><th>Section</th><th>File</th><th>Date</th></tr>"

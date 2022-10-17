@@ -20,7 +20,7 @@
     
     <script>
         function postDoubts() {
-            var url = "https://webs-school.herokuapp.com/message%20post/";
+            var url = "http://127.0.0.1:8000/message%20post/";
             var obj = {
                 "sender":"{{information.regis.name}}",
                 "receiver":$("#receiver option:selected").val(),
@@ -37,7 +37,7 @@
         };
 
         function getAllDoubts(){
-            var url = "https://webs-school.herokuapp.com/fetch%20message/";
+            var url = "http://127.0.0.1:8000/fetch%20message/";
             $.get(url,function(data,status){
                 var info = data;
                 var party = $("#receiver-party").val();
@@ -58,7 +58,7 @@
 
 
         function linkView(){
-            var url = "https://webs-school.herokuapp.com/classroom/student/{{information.regis.name}}/view%20links/";
+            var url = "http://127.0.0.1:8000/classroom/student/{{information.regis.name}}/view%20links/";
 
             $.get(url,function(data,status){
                 var disp = ""

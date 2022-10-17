@@ -21,16 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = "6xq*-*v@8a(*vra3^*g=i0c87o8vn496-5-b4qr#=ok8k+b-3r"
 
 # django-insecure-!o_1$854j(jw+jdy^*1u*m7$hkc(sg@=ebtb_2b_xqt*jym$zc
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["webs-school.herokuapp.com","localhost"]
-
-CSRF_TRUSTED_ORIGINS = ["https://webs-school.herokuapp.com"]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 

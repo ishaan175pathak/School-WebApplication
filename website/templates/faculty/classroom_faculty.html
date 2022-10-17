@@ -21,7 +21,7 @@
 
     <script>
         function postmessage() {
-            var url = "https://webs-school.herokuapp.com/message%20post/";
+            var url = "http://127.0.0.1:8000/message%20post/";
             var obj = {
                 "sender":"{{information.name}}",
                 "receiver":$("#receiver option:selected").val(),
@@ -38,7 +38,7 @@
         };
 
         function getMessage(){
-            var url = "https://webs-school.herokuapp.com/fetch%20message/";
+            var url = "http://127.0.0.1:8000/fetch%20message/";
             $.get(url,function(data,status){
                 var info = data;
                 var party = $("#receiver-party").val();
